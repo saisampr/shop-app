@@ -1,0 +1,23 @@
+# Dependencies - too large to upload
+node_modules/
+
+# Environment files - contain passwords
+.env
+.env.local
+.env*.local
+
+# Build outputs - generated automatically
+dist/
+.next/
+build/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
