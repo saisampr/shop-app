@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-frontend
+  labels:
+    app: shop-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shop-frontend
+  template:
+    metadata:
+      labels:
+        app: shop-frontend
+    spec:
+      containers:
+        - name: shop-frontend
+          image: shopappregistry.azurecr.io/shop-frontend:latest
+          ports:
+            - containerPort: 3001
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://BACKEND_EXTERNAL_IP"
+            - name: NODE_ENV
+              value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-frontend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: shop-frontend
+  ports:
+    - port: 80
+      targetPort: 3001

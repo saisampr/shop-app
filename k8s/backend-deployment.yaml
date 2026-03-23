@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-backend
+  labels:
+    app: shop-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shop-backend
+  template:
+    metadata:
+      labels:
+        app: shop-backend
+    spec:
+      containers:
+        - name: shop-backend
+          image: shopappregistry.azurecr.io/shop-backend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://pgadmin:ShopApp@123@shop-app-db.postgres.database.azure.com:5432/shopapp?sslmode=require"
+            - name: JWT_SECRET
+              value: "shop-app-secret"
+            - name: NODE_ENV
+              value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-backend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: shop-backend
+  ports:
+    - port: 80
+      targetPort: 3000

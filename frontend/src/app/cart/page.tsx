@@ -22,7 +22,7 @@ export default function CartPage() {
     if (mounted && !user) router.push('/login');
   }, [mounted, user, router]);
 
-  const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+  const authHeader: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
 
   const fetchCart = () => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`, {

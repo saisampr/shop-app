@@ -16,13 +16,10 @@ import { User } from './users/user.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '0000',
-      database: 'shopapp',
+      url: process.env.DATABASE_URL,
       entities: [Product, CartItem, Order, User],
       synchronize: true,
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     ProductsModule,
     CartModule,
